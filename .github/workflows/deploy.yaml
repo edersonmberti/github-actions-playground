@@ -6,7 +6,6 @@ on:
 jobs:
   test:
     name: Print
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     steps:
       - name: Print Tag version

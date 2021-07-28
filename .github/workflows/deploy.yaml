@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   test:
@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Tag version
-        run: echo ${GITHUB_REF#refs/*/}
+        run: echo ${GITHUB_REF}

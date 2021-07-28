@@ -1,0 +1,12 @@
+name: Release
+
+on: ["push"]
+
+jobs:
+  create-git-tag:
+    name: Create Git Tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Create Git Tag
+        run: echo "TODO - Create Git Tag"
+

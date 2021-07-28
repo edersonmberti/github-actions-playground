@@ -1,0 +1,14 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  test:
+    name: Print
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Tag version
+        run: echo ${GITHUB_REF#refs/*/}

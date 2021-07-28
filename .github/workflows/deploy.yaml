@@ -1,7 +1,9 @@
-name: Deploy
+name: deploy
 
-on: 
-  create:
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   test:

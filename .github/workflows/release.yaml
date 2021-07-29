@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start Create Git Tag
-        run: echo "TODO - Create Git Tag - Bump Fix 2 Version"
+        run: echo "TODO - Create Git Tag - Bump Feat 1 Version"
 
   build:
     runs-on: ubuntu-latest

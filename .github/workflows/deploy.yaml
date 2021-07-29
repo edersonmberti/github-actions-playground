@@ -11,4 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Tag version
-        run: echo ${GITHUB_REF}
+        run: |
+          echo ${GITHUB_REF} 
+          echo FIX

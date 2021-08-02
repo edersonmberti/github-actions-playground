@@ -1,4 +1,4 @@
-name: Deploy
+name: deploy
 
 on:
   workflow_run:
@@ -20,7 +20,7 @@ jobs:
         run : |
           git tag -l | xargs git tag -d
           git fetch --tags
-          TAG=$(git describe --tags --always $(git rev-list --tags --max-count=1))
+          TAG=$(git describe --tags --always $(git rev-list --tags --max-count=1)) >> $GITHUB_ENV
     outputs:
       TAG: ${{ env.TAG }}
     

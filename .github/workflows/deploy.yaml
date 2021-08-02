@@ -1,16 +1,33 @@
 name: deploy
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: ["Release"]
+    branches:
+      - master
+    types:
+      - completed
 
 jobs:
-  test:
-    name: Print
+  set-env:
+    name: Set Enviroment Variables
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Print Tag version
-        run: |
-          echo ${GITHUB_REF} 
-          echo FIX
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Fetch Last Tag
+        run : |
+          git tag -l | xargs git tag -d
+          git fetch --tags
+          TAG=$(git describe --tags --always $(git rev-list --tags --max-count=1))
+          echo "TAG=$TAG" >> $GITHUB_ENV
+    outputs:
+      TAG: ${{ env.TAG }}
+    
+  print-env:
+    name: Print Enviroment Variables
+    needs: [set-env]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.set-env.outputs.TAG }}

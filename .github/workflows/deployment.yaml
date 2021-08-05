@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.3
-        with:
-          fetch-depth: 0
       - name: Get previous tag
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
@@ -28,4 +26,5 @@ jobs:
     needs: [set-env]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.set-env.outputs.TAG }}
+      - run: echo ${GITHUB_REF##*/}
+        

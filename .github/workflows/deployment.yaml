@@ -17,11 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Fetch Last Tag
-        run : |
-          git tag -l | xargs git tag -d
-          git fetch --tags
-          TAG=$(git describe --tags --always $(git rev-list --tags --max-count=1))
-          echo "TAG=$TAG" >> $GITHUB_ENV
+        run : echo "TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
     outputs:
       TAG: ${{ env.TAG }}
     

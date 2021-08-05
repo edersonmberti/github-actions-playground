@@ -9,9 +9,10 @@ on:
       - completed
 
 jobs:
-  print-env:
-    name: Print Enviroment Variables
+  fetch-latest-tag:
+    name: Fetch Latest Tag
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${GITHUB_REF##*/}
-   
+      - name: Get the version
+        id: get_version
+        run: echo ${GITHUB_REF/refs\/tags\//}

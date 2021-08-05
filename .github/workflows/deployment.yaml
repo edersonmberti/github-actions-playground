@@ -15,4 +15,4 @@ jobs:
     steps:
       - name: Get the version
         id: get_version
-        run: echo ${GITHUB_REF/refs\/tags\//}
+        run: echo ${GITHUB_REF}

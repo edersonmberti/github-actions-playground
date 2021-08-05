@@ -16,10 +16,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Fetch Last Tag
-        run : echo "TAG=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
     outputs:
-      TAG: ${{ env.TAG }}
+      TAG: ${{ steps.previoustag.outputs.tag }}
     
   print-env:
     name: Print Enviroment Variables

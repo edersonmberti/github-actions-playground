@@ -3,27 +3,39 @@ name: Release
 on: ["push"]
 
 jobs:
-  start:
-    name: Start
+  fetch-last-tag:
+    name: Fetch Last Tag
     runs-on: ubuntu-latest
     steps:
-      - name: Start Create Git Tag
-        run: echo "TODO - Create Git Tag - Bump Patch 1 Version"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Fetch Last Tag
+        run : |
+          git tag -l | xargs git tag -d
+          git fetch --tags
+          TAG=$(git describe --tags --always $(git rev-list --tags --max-count=1))
+          echo "TAG=$TAG" >> $GITHUB_ENV
+    outputs:
+      TAG: ${{ env.TAG }}
 
-  build:
+  test-log-1:
+    name: Test Log 1
+    needs: [fetch-last-tag]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create a GitHub release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+      - run: echo ${{ env.TAG }}
+  
+  test-log-2:
+    name: Test Log 2
+    needs: [test-log-1]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "$TAG ${{ env.TAG }} ${ TAG }"
+
+  test-log-3:
+    name: Test Log 3
+    needs: [test-log-2, fetch-last-tag]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.fetch-last-tag.outputs.TAG }}
+      - run: echo "${{ needs.fetch-last-tag.outputs.TAG }}"

@@ -1,6 +1,12 @@
 name: Release
 
-on: ["push"]
+on:
+  workflow_dispatch:
+    inputs:
+      test-run:
+        description: 'Test (y/n)?'
+        required: true
+        default: 'y'
 
 jobs:
   fetch-last-tag:
@@ -25,17 +31,3 @@ jobs:
     steps:
       - run: echo ${{ env.TAG }}
   
-  test-log-2:
-    name: Test Log 2
-    needs: [test-log-1]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "$TAG ${{ env.TAG }} ${ TAG }"
-
-  test-log-3:
-    name: Test Log 3
-    needs: [test-log-2, fetch-last-tag]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ needs.fetch-last-tag.outputs.TAG }}
-      - run: echo "${{ needs.fetch-last-tag.outputs.TAG }}"
